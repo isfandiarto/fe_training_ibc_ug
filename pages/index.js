@@ -1,11 +1,13 @@
 import Layout from '../layouts/Layout'
 import { instance } from '../configs'
 import UserList from '../components/user-list'
-import { Form, Row, Col, Pagination } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import PaginationFunc from '../components/Pagination'
+import { useRouter } from 'next/router'
 
 export default function Home({ usersData }) {
+  const router = useRouter()
 
   const [users, setUsers] = useState(usersData.data)
 
@@ -33,6 +35,11 @@ export default function Home({ usersData }) {
     setUsers(filterData)
   }
 
+  //go to add user page
+  const handleClick = () => {
+    router.push('add')
+  }
+
   return (
     // <>
     //   <Layout>
@@ -46,13 +53,14 @@ export default function Home({ usersData }) {
     // </>
 
     <div>
+      <Button onClick={() => handleClick()}>Add User</Button>
       {users.length > 0 ? (
         <>
           <PaginationFunc
             users={users}
             RenderComponent={UserList}
             title="Users"
-            pageLimit={5}
+            pageLimit={users.length / 3}
             dataLimit={3}
           />
         </>

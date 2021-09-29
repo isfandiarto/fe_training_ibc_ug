@@ -3,6 +3,7 @@ import { Row } from 'react-bootstrap'
 import UserItem from './user-item'
 
 const UserList = ({ users }) => {
+    console.log(users)
     return (
         <>
             <Row>
