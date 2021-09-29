@@ -119,3 +119,7 @@
     flex-direction: column;
   }
 }
+
+.searchbox {
+  margin : 10px;
+}
