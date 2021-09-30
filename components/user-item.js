@@ -2,7 +2,8 @@ import React from 'react'
 import { Col, Card } from 'react-bootstrap'
 import { useRouter } from 'next/router'
 
-const UserItem = ({ users }) => {
+const UserItem = ({ user }) => {
+    console.log(user)
     const router = useRouter()
 
     const handleCardClick = (id) => {
@@ -11,12 +12,12 @@ const UserItem = ({ users }) => {
 
     return (
         <Col md={4}>
-            <Card onClick={() => handleCardClick(users.id)}>
-                <Card.Img variant="top" src={users.avatar} />
+            <Card onClick={() => handleCardClick(user.id)}>
+                <Card.Img variant="top" src={user.avatar} />
                 <Card.Body>
-                    <Card.Title>{users.first_name} {users.last_name}</Card.Title>
+                    <Card.Title>{user.first_name} {user.last_name}</Card.Title>
                     <Card.Text>
-                        {users.email}
+                        {user.email}
                     </Card.Text>
                 </Card.Body>
             </Card>

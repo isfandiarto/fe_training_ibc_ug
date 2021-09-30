@@ -1,7 +1,7 @@
 import Layout from '../layouts/Layout'
 import { instance } from '../configs'
 import UserList from '../components/user-list'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
 import PaginationFunc from '../components/Pagination'
 import { useRouter } from 'next/router'
@@ -10,8 +10,10 @@ export default function Home({ usersData }) {
   const router = useRouter()
 
   const [users, setUsers] = useState(usersData.data)
+  const [isFilter, setIsFilter] = useState(false)
 
   const filterUser = (e) => {
+    setIsFilter(true)
     const value = e.target.value
     console.log(value)
 
@@ -29,6 +31,7 @@ export default function Home({ usersData }) {
         const res = await instance.get('users?page=2')
         const data = res.data
         setUsers(data.data)
+        setIsFilter(false)
       };
       checkLength();
     }
@@ -36,39 +39,33 @@ export default function Home({ usersData }) {
   }
 
   //go to add user page
-  const handleClick = () => {
-    router.push('add')
+  const handleClick = (e) => {
+    router.push(e.target.id)
   }
 
   return (
-    // <>
-    //   <Layout>
-    //     <Row className='justify-content-md-end mb-3'>
-    //       <Col md={3} className='searchbox'>
-    //         <Form.Control type="text" placeholder="Insert name" onChange={filterUser} />
-    //       </Col>
-    //     </Row>
-    //     <UserList users={users}></UserList>
-    //   </Layout>
-    // </>
-
     <div>
-      <Button onClick={() => handleClick()}>Add User</Button>
-      {users.length > 0 ? (
-        <>
+      <>
+        <Layout>
+          <Row className='justify-content-md-end mb-3'>
+            <Col md={3} className='searchbox'>
+              <Form.Control type="text" placeholder="Insert name" onChange={filterUser} />
+            </Col>
+          </Row>
           <PaginationFunc
             users={users}
             RenderComponent={UserList}
             title="Users"
             pageLimit={users.length / 3}
             dataLimit={3}
+            isFilter={isFilter}
           />
-        </>
-      ) : (
-        <h1>No Posts to display</h1>
-      )}
+        </Layout>
+      </>
     </div>
   )
+  // }
+
 }
 
 export async function getServerSideProps(context) {

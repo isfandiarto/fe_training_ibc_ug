@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 
 
-const PaginationFunc = ({ users, RenderComponent, title, pageLimit, dataLimit }) => {
+const PaginationFunc = ({ users, RenderComponent, title, pageLimit, dataLimit, isFilter }) => {
     const [pages] = useState(Math.round(users.length / dataLimit));
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -30,7 +30,7 @@ const PaginationFunc = ({ users, RenderComponent, title, pageLimit, dataLimit })
         return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
     };
 
-    // console.log(data)
+    console.log(getPaginatedData())
 
     return (
         <div>
@@ -38,9 +38,10 @@ const PaginationFunc = ({ users, RenderComponent, title, pageLimit, dataLimit })
 
             {/* show the posts, 10 posts at a time */}
             <div className="dataContainer">
-                {getPaginatedData().map((d, idx) => (
+                {/* {getPaginatedData().map((d, idx) => (
                     <RenderComponent key={idx} users={d} />
-                ))}
+                ))} */}
+                <RenderComponent users={getPaginatedData()} />
             </div>
 
             {/* show the pagination
@@ -58,15 +59,19 @@ const PaginationFunc = ({ users, RenderComponent, title, pageLimit, dataLimit })
                 </button>
 
                 {/* show page numbers */}
-                {getPaginationGroup().map((item, index) => (
-                    <button
-                        key={index}
-                        onClick={changePage}
-                        className={`paginationItem ${currentPage === item ? 'active' : null}`}
-                    >
-                        <span>{item}</span>
-                    </button>
-                ))}
+                {isFilter ? null
+                    :
+                    getPaginationGroup().map((item, index) => (
+                        <button
+                            key={index}
+                            onClick={changePage}
+                            className={`paginationItem ${currentPage === item ? 'active' : null}`}
+                        >
+                            <span>{item}</span>
+                        </button>
+                    ))
+                }
+
 
                 {/* next button */}
                 <button

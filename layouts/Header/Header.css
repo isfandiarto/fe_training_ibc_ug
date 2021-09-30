@@ -1,0 +1,24 @@
+.menu-bars {
+    margin-left: 2rem;
+    font-size: 2rem;
+    background: none;
+}
+
+.nav-menu{
+    background-color: #fafafa;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    z-index: 1;
+    transition: 850ms;
+}
+
+.nav-menu.active{
+    left: 0;
+    z-index: 1;
+    transition: 350ms;
+}
